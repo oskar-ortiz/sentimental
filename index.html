@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Mi Amor Lina</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-secondary: #1a1a2e;
+            --accent-gold: #d4af37;
+            --accent-ivory: #f5f5dc;
+            --accent-wine: #722d3d;
+            --text-light: #e8e8e8;
+            --glow-color: rgba(212, 175, 55, 0.3);
+            --transition-smooth: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        /* ============ FONDO CON PARTÍCULAS ============ */
+        .background-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: var(--accent-gold);
+            border-radius: 50%;
+            opacity: 0.6;
+        }
+
+        /* ============ CONTENEDOR PRINCIPAL ============ */
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 600px;
+            min-height: 400px;
+        }
+
+        /* ============ PANTALLA INICIAL ============ */
+        .screen-initial {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            min-height: 400px;
+            gap: 3rem;
+        }
+
+        .initial-text {
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: var(--accent-ivory);
+            opacity: 0;
+            animation: fadeInSlow 1.5s ease-out 0.3s forwards;
+            line-height: 1.6;
+        }
+
+        .initial-subtitle {
+            font-size: clamp(0.9rem, 3vw, 1.1rem);
+            color: var(--accent-gold);
+            opacity: 0;
+            animation: fadeInSlow 1.5s ease-out 0.8s forwards;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        /* ============ BOTÓN CENTRAL ============ */
+        .button-wrapper {
+            position: relative;
+            display: inline-flex;
+        }
+
+        .btn-central {
+            padding: 1rem 2.5rem;
+            font-size: clamp(0.95rem, 3vw, 1.1rem);
+            font-weight: 500;
+            letter-spacing: 1px;
+            background-color: transparent;
+            border: 2px solid var(--accent-gold);
+            color: var(--accent-gold);
+            cursor: pointer;
+            border-radius: 50px;
+            transition: var(--transition-smooth);
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeInSlow 1.5s ease-out 1.2s forwards;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-central::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent-wine);
+            z-index: -1;
+            transition: left 0.5s ease-out;
+        }
+
+        .btn-central:hover::before {
+            left: 0;
+        }
+
+        .btn-central:hover {
+            color: var(--accent-ivory);
+            box-shadow: 0 0 20px var(--glow-color);
+            transform: translateY(-2px);
+        }
+
+        .btn-central:active {
+            transform: scale(0.98);
+        }
+
+        /* ============ PANTALLA DE MENSAJE ============ */
+        .screen-message {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            min-height: 400px;
+            gap: 2rem;
+            opacity: 0;
+        }
+
+        .screen-message.active {
+            display: flex;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .message-card {
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.7) 0%, rgba(114, 45, 61, 0.1) 100%);
+            border: 2px solid var(--accent-gold);
+            border-radius: 15px;
+            padding: clamp(1.5rem, 5vw, 2.5rem);
+            max-width: 100%;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.15),
+                        inset 0 1px 0 rgba(245, 245, 220, 0.1);
+            position: relative;
+        }
+
+        .message-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, var(--glow-color) 0%, transparent 50%);
+            border-radius: 15px;
+            pointer-events: none;
+        }
+
+        .message-text {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            line-height: 1.8;
+            color: var(--accent-ivory);
+            font-weight: 300;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+            letter-spacing: 0.5px;
+            opacity: 0;
+        }
+
+        .message-text.show {
+            animation: slideUpFadeIn 0.8s ease-out forwards;
+        }
+
+        .signature {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(1.5rem, 5vw, 2rem);
+            font-style: italic;
+            color: var(--accent-gold);
+            margin-top: 1.5rem;
+            opacity: 0;
+        }
+
+        .signature.show {
+            animation: slideUpFadeIn 0.8s ease-out 0.3s forwards;
+        }
+
+        /* ============ BOTÓN SECUNDARIO ============ */
+        .btn-secondary {
+            padding: 0.8rem 2rem;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            font-weight: 500;
+            letter-spacing: 1px;
+            background-color: transparent;
+            border: 2px solid var(--accent-ivory);
+            color: var(--accent-ivory);
+            cursor: pointer;
+            border-radius: 50px;
+            transition: var(--transition-smooth);
+            text-transform: uppercase;
+            opacity: 0;
+            margin-top: 1rem;
+        }
+
+        .btn-secondary.show {
+            animation: fadeInSlow 0.8s ease-out 0.6s forwards;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--accent-ivory);
+            color: var(--bg-dark);
+            box-shadow: 0 0 20px rgba(245, 245, 220, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* ============ ANIMACIONES KEYFRAMES ============ */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInSlow {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUpFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(50px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% {
+                box-shadow: 0 8px 32px rgba(212, 175, 55, 0.15),
+                            inset 0 1px 0 rgba(245, 245, 220, 0.1);
+            }
+            50% {
+                box-shadow: 0 8px 32px rgba(212, 175, 55, 0.25),
+                            inset 0 1px 0 rgba(245, 245, 220, 0.15);
+            }
+        }
+
+        /* ============ RESPONSIVIDAD ============ */
+        @media (max-width: 600px) {
+            body {
+                padding: 1rem;
+            }
+
+            .container {
+                min-height: 350px;
+            }
+
+            .screen-initial,
+            .screen-message {
+                min-height: 350px;
+            }
+
+            .message-card {
+                margin: 0 1rem;
+            }
+
+            .initial-text {
+                font-size: 1.5rem;
+            }
+
+            .signature {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            :root {
+                --accent-gold: #d4af37;
+            }
+
+            body {
+                padding: 0.75rem;
+            }
+
+            .container {
+                min-height: 300px;
+            }
+
+            .initial-text {
+                font-size: 1.2rem;
+                letter-spacing: 1px;
+            }
+
+            .message-text {
+                font-size: 0.95rem;
+                line-height: 1.6;
+            }
+        }
+
+        /* ============ IMPORT FONT ============ */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:ital@0;1&display=swap');
+    </style>
+</head>
+<body>
+    <!-- Fondo con partículas -->
+    <div class="background-particles" id="particles"></div>
+
+    <!-- Contenedor principal -->
+    <div class="container">
+        <!-- Pantalla inicial -->
+        <div class="screen-initial" id="screenInitial">
+            <div class="initial-text">Para alguien especial...</div>
+            <div class="initial-subtitle">Presiona el botón para continuar</div>
+            <div class="button-wrapper">
+                <button class="btn-central" id="btnStart">Descubrir</button>
+            </div>
+        </div>
+
+        <!-- Pantalla de mensaje -->
+        <div class="screen-message" id="screenMessage">
+            <div class="message-card">
+                <p class="message-text" id="messageText">
+                    Lina, cada detalle de esto fue pensado en lo que significas para mí.<br>
+                    Eres mi lugar seguro y mi mayor alegría.<br>
+                    Gracias por cada momento y por ser como eres.
+                </p>
+                <div class="signature" id="signature">Mi amor Lina</div>
+            </div>
+            <button class="btn-secondary" id="btnReset">← Volver</button>
+        </div>
+    </div>
+
+    <script>
+        // ============ INICIALIZACIÓN DE PARTÍCULAS ============
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = window.innerWidth > 768 ? 60 : 30;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const x = Math.random() * window.innerWidth;
+                const y = Math.random() * window.innerHeight;
+                const duration = 15 + Math.random() * 10;
+                const delay = Math.random() * 5;
+                
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                particle.style.animation = `floatParticle ${duration}s linear ${delay}s infinite`;
+                particle.style.setProperty('--random-x', (Math.random() - 0.5) * 200 + 'px');
+                
+                container.appendChild(particle);
+            }
+        }
+
+        // ============ SISTEMA DE SONIDO CON WEB AUDIO API ============
+        class SoundGenerator {
+            constructor() {
+                this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+
+            playShimmerSound() {
+                const now = this.audioContext.currentTime;
+                const duration = 0.3;
+
+                // Crear oscilador para un sonido cristalino
+                const osc = this.audioContext.createOscillator();
+                const gain = this.audioContext.createGain();
+
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(800, now);
+                osc.frequency.exponentialRampToValueAtTime(1200, now + duration * 0.3);
+                osc.frequency.exponentialRampToValueAtTime(600, now + duration);
+
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + duration);
+
+                osc.connect(gain);
+                gain.connect(this.audioContext.destination);
+
+                osc.start(now);
+                osc.stop(now + duration);
+
+                // Segundo oscilador para más profundidad
+                const osc2 = this.audioContext.createOscillator();
+                const gain2 = this.audioContext.createGain();
+
+                osc2.type = 'sine';
+                osc2.frequency.setValueAtTime(1200, now);
+                osc2.frequency.exponentialRampToValueAtTime(1600, now + duration * 0.2);
+                osc2.frequency.exponentialRampToValueAtTime(800, now + duration);
+
+                gain2.gain.setValueAtTime(0.2, now);
+                gain2.gain.exponentialRampToValueAtTime(0.01, now + duration);
+
+                osc2.connect(gain2);
+                gain2.connect(this.audioContext.destination);
+
+                osc2.start(now);
+                osc2.stop(now + duration);
+            }
+
+            playPulseSound() {
+                const now = this.audioContext.currentTime;
+                const duration = 0.4;
+
+                const osc = this.audioContext.createOscillator();
+                const gain = this.audioContext.createGain();
+
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(500, now);
+                osc.frequency.exponentialRampToValueAtTime(400, now + duration);
+
+                gain.gain.setValueAtTime(0.25, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + duration);
+
+                osc.connect(gain);
+                gain.connect(this.audioContext.destination);
+
+                osc.start(now);
+                osc.stop(now + duration);
+            }
+        }
+
+        const soundGenerator = new SoundGenerator();
+
+        // ============ LÓGICA DE NAVEGACIÓN ENTRE PANTALLAS ============
+        const screenInitial = document.getElementById('screenInitial');
+        const screenMessage = document.getElementById('screenMessage');
+        const btnStart = document.getElementById('btnStart');
+        const btnReset = document.getElementById('btnReset');
+        const messageText = document.getElementById('messageText');
+        const signature = document.getElementById('signature');
+
+        function showMessageScreen() {
+            soundGenerator.playShimmerSound();
+            
+            screenInitial.style.display = 'none';
+            screenMessage.classList.add('active');
+            
+            // Animar el texto del mensaje
+            setTimeout(() => {
+                messageText.classList.add('show');
+            }, 200);
+
+            // Animar la firma
+            setTimeout(() => {
+                signature.classList.add('show');
+            }, 500);
+
+            // Mostrar botón de regreso
+            setTimeout(() => {
+                btnReset.classList.add('show');
+            }, 800);
+
+            // Aplicar animación de glow a la tarjeta
+            const card = document.querySelector('.message-card');
+            card.style.animation = 'glow-pulse 3s ease-in-out infinite';
+        }
+
+        function showInitialScreen() {
+            soundGenerator.playPulseSound();
+            
+            screenMessage.classList.remove('active');
+            messageText.classList.remove('show');
+            signature.classList.remove('show');
+            btnReset.classList.remove('show');
+            
+            setTimeout(() => {
+                screenInitial.style.display = 'flex';
+            }, 300);
+        }
+
+        btnStart.addEventListener('click', showMessageScreen);
+        btnReset.addEventListener('click', showInitialScreen);
+
+        // Efectos de sonido en hover
+        btnStart.addEventListener('mouseenter', () => {
+            soundGenerator.playShimmerSound();
+        });
+
+        btnReset.addEventListener('mouseenter', () => {
+            soundGenerator.playShimmerSound();
+        });
+
+        // ============ INICIALIZACIÓN ============
+        createParticles();
+
+        // Recrear partículas en resize
+        window.addEventListener('resize', () => {
+            const particles = document.getElementById('particles');
+            particles.innerHTML = '';
+            createParticles();
+        });
+    </script>
+</body>
+</html>
