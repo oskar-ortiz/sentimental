@@ -17,6 +17,7 @@
             --accent-gold: #d4af37;
             --accent-ivory: #f5f5dc;
             --accent-wine: #722d3d;
+            --accent-rose: #e63f7b;
             --text-light: #e8e8e8;
             --glow-color: rgba(212, 175, 55, 0.3);
             --transition-smooth: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
@@ -29,7 +30,7 @@
         }
 
         body {
-            background-color: var(--bg-dark);
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a1a 100%);
             color: var(--text-light);
             font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             display: flex;
@@ -40,7 +41,7 @@
             padding: 1rem;
         }
 
-        /* ============ FONDO CON PARTÍCULAS ============ */
+        /* ============ FONDO CON PARTÍCULAS Y ELEMENTOS ============ */
         .background-particles {
             position: fixed;
             top: 0;
@@ -60,13 +61,30 @@
             opacity: 0.6;
         }
 
+        /* ============ FLORES FLOTANTES ============ */
+        .flower {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        /* ============ CORAZONES FLOTANTES ============ */
+        .heart-float {
+            position: absolute;
+            font-size: clamp(1rem, 3vw, 2rem);
+            opacity: 0;
+            pointer-events: none;
+            color: var(--accent-rose);
+        }
+
         /* ============ CONTENEDOR PRINCIPAL ============ */
         .container {
             position: relative;
             z-index: 1;
             width: 100%;
-            max-width: 600px;
-            min-height: 400px;
+            max-width: 700px;
+            min-height: 450px;
         }
 
         /* ============ PANTALLA INICIAL ============ */
@@ -76,27 +94,35 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            min-height: 400px;
-            gap: 3rem;
+            min-height: 450px;
+            gap: 2rem;
         }
 
         .initial-text {
-            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            font-size: clamp(1.5rem, 5vw, 2.8rem);
             font-weight: 300;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             color: var(--accent-ivory);
             opacity: 0;
-            animation: fadeInSlow 1.5s ease-out 0.3s forwards;
+            animation: fadeInSlow 2s ease-out 0.3s forwards;
             line-height: 1.6;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
         }
 
         .initial-subtitle {
             font-size: clamp(0.9rem, 3vw, 1.1rem);
             color: var(--accent-gold);
             opacity: 0;
-            animation: fadeInSlow 1.5s ease-out 0.8s forwards;
+            animation: fadeInSlow 2s ease-out 1s forwards;
             font-weight: 300;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+        }
+
+        .decorative-element {
+            opacity: 0;
+            animation: fadeInSlow 2s ease-out 1.5s forwards;
+            font-size: 2rem;
+            color: var(--accent-rose);
         }
 
         /* ============ BOTÓN CENTRAL ============ */
@@ -106,11 +132,11 @@
         }
 
         .btn-central {
-            padding: 1rem 2.5rem;
+            padding: 1.2rem 3rem;
             font-size: clamp(0.95rem, 3vw, 1.1rem);
-            font-weight: 500;
-            letter-spacing: 1px;
-            background-color: transparent;
+            font-weight: 600;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(230, 63, 123, 0.1));
             border: 2px solid var(--accent-gold);
             color: var(--accent-gold);
             cursor: pointer;
@@ -120,8 +146,9 @@
             position: relative;
             overflow: hidden;
             opacity: 0;
-            animation: fadeInSlow 1.5s ease-out 1.2s forwards;
+            animation: fadeInSlow 2s ease-out 1.8s forwards;
             backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
         }
 
         .btn-central::before {
@@ -131,23 +158,24 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background-color: var(--accent-wine);
+            background: linear-gradient(90deg, transparent, rgba(230, 63, 123, 0.3), transparent);
             z-index: -1;
-            transition: left 0.5s ease-out;
+            transition: left 0.6s ease-out;
         }
 
         .btn-central:hover::before {
-            left: 0;
+            left: 100%;
         }
 
         .btn-central:hover {
             color: var(--accent-ivory);
-            box-shadow: 0 0 20px var(--glow-color);
-            transform: translateY(-2px);
+            border-color: var(--accent-rose);
+            box-shadow: 0 0 30px var(--glow-color), 0 0 15px rgba(230, 63, 123, 0.2);
+            transform: translateY(-3px);
         }
 
         .btn-central:active {
-            transform: scale(0.98);
+            transform: scale(0.97);
         }
 
         /* ============ PANTALLA DE MENSAJE ============ */
@@ -157,7 +185,7 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            min-height: 400px;
+            min-height: 450px;
             gap: 2rem;
             opacity: 0;
         }
@@ -168,15 +196,17 @@
         }
 
         .message-card {
-            background: linear-gradient(135deg, rgba(26, 26, 46, 0.7) 0%, rgba(114, 45, 61, 0.1) 100%);
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.8) 0%, rgba(114, 45, 61, 0.2) 50%, rgba(26, 26, 46, 0.8) 100%);
             border: 2px solid var(--accent-gold);
-            border-radius: 15px;
-            padding: clamp(1.5rem, 5vw, 2.5rem);
+            border-radius: 20px;
+            padding: clamp(2rem, 6vw, 3rem);
             max-width: 100%;
             backdrop-filter: blur(20px);
-            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.15),
-                        inset 0 1px 0 rgba(245, 245, 220, 0.1);
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.2),
+                        inset 0 1px 0 rgba(245, 245, 220, 0.15),
+                        0 0 40px rgba(230, 63, 123, 0.1);
             position: relative;
+            border-top: 1px solid rgba(245, 245, 220, 0.2);
         }
 
         .message-card::before {
@@ -186,46 +216,74 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: radial-gradient(circle at 20% 50%, var(--glow-color) 0%, transparent 50%);
-            border-radius: 15px;
+            background: radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.15) 0%, transparent 60%);
+            border-radius: 20px;
             pointer-events: none;
         }
 
         .message-text {
-            font-size: clamp(1rem, 2.5vw, 1.2rem);
-            line-height: 1.8;
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            line-height: 2;
             color: var(--accent-ivory);
             font-weight: 300;
             margin: 0;
             position: relative;
             z-index: 1;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
             opacity: 0;
         }
 
         .message-text.show {
-            animation: slideUpFadeIn 0.8s ease-out forwards;
+            animation: slideUpFadeIn 1s ease-out forwards;
+        }
+
+        .message-divider {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+            margin: 0.5rem 0;
+            position: relative;
+            z-index: 1;
+            opacity: 0;
+        }
+
+        .message-divider.show {
+            animation: slideUpFadeIn 1s ease-out 0.15s forwards;
         }
 
         .signature {
             font-family: 'Playfair Display', Georgia, serif;
-            font-size: clamp(1.5rem, 5vw, 2rem);
+            font-size: clamp(1.8rem, 5vw, 2.3rem);
             font-style: italic;
-            color: var(--accent-gold);
+            font-weight: 700;
+            color: var(--accent-rose);
             margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
             opacity: 0;
+            text-shadow: 0 0 20px rgba(230, 63, 123, 0.3);
         }
 
         .signature.show {
-            animation: slideUpFadeIn 0.8s ease-out 0.3s forwards;
+            animation: slideUpFadeIn 1s ease-out 0.6s forwards;
+        }
+
+        .heart-decoration {
+            font-size: 1.5rem;
+            position: relative;
+            z-index: 1;
+            opacity: 0;
+        }
+
+        .heart-decoration.show {
+            animation: slideUpFadeIn 1s ease-out 0.8s forwards;
         }
 
         /* ============ BOTÓN SECUNDARIO ============ */
         .btn-secondary {
-            padding: 0.8rem 2rem;
+            padding: 0.9rem 2.2rem;
             font-size: clamp(0.9rem, 2.5vw, 1rem);
-            font-weight: 500;
-            letter-spacing: 1px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
             background-color: transparent;
             border: 2px solid var(--accent-ivory);
             color: var(--accent-ivory);
@@ -238,14 +296,15 @@
         }
 
         .btn-secondary.show {
-            animation: fadeInSlow 0.8s ease-out 0.6s forwards;
+            animation: fadeInSlow 0.8s ease-out 0.9s forwards;
         }
 
         .btn-secondary:hover {
             background-color: var(--accent-ivory);
             color: var(--bg-dark);
-            box-shadow: 0 0 20px rgba(245, 245, 220, 0.3);
+            box-shadow: 0 0 25px rgba(245, 245, 220, 0.4);
             transform: translateY(-2px);
+            border-color: var(--accent-rose);
         }
 
         /* ============ ANIMACIONES KEYFRAMES ============ */
@@ -297,34 +356,81 @@
             }
         }
 
+        @keyframes floatFlower {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            5% {
+                opacity: 0.6;
+            }
+            95% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(95vh) translateX(0) scale(1);
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(30px) scale(0.5);
+                opacity: 0;
+            }
+        }
+
         @keyframes glow-pulse {
             0%, 100% {
-                box-shadow: 0 8px 32px rgba(212, 175, 55, 0.15),
-                            inset 0 1px 0 rgba(245, 245, 220, 0.1);
+                box-shadow: 0 8px 32px rgba(212, 175, 55, 0.2),
+                            inset 0 1px 0 rgba(245, 245, 220, 0.15),
+                            0 0 40px rgba(230, 63, 123, 0.1);
             }
             50% {
-                box-shadow: 0 8px 32px rgba(212, 175, 55, 0.25),
-                            inset 0 1px 0 rgba(245, 245, 220, 0.15);
+                box-shadow: 0 8px 32px rgba(212, 175, 55, 0.35),
+                            inset 0 1px 0 rgba(245, 245, 220, 0.25),
+                            0 0 60px rgba(230, 63, 123, 0.2);
+            }
+        }
+
+        @keyframes gentle-rotate {
+            0%, 100% {
+                transform: rotate(0deg);
+            }
+            50% {
+                transform: rotate(2deg);
             }
         }
 
         /* ============ RESPONSIVIDAD ============ */
         @media (max-width: 600px) {
             body {
-                padding: 1rem;
+                padding: 0.75rem;
             }
 
             .container {
-                min-height: 350px;
+                min-height: 400px;
             }
 
             .screen-initial,
             .screen-message {
-                min-height: 350px;
+                min-height: 400px;
             }
 
             .message-card {
-                margin: 0 1rem;
+                margin: 0 0.5rem;
+                border-radius: 15px;
             }
 
             .initial-text {
@@ -332,36 +438,41 @@
             }
 
             .signature {
-                font-size: 1.3rem;
+                font-size: 1.5rem;
             }
         }
 
         @media (max-width: 480px) {
-            :root {
-                --accent-gold: #d4af37;
-            }
-
             body {
-                padding: 0.75rem;
+                padding: 0.5rem;
             }
 
             .container {
-                min-height: 300px;
+                min-height: 350px;
+            }
+
+            .screen-initial {
+                gap: 1.5rem;
+                min-height: 350px;
             }
 
             .initial-text {
-                font-size: 1.2rem;
-                letter-spacing: 1px;
+                font-size: 1.3rem;
+                letter-spacing: 1.5px;
             }
 
             .message-text {
-                font-size: 0.95rem;
-                line-height: 1.6;
+                font-size: 1rem;
+                line-height: 1.8;
+            }
+
+            .btn-central {
+                padding: 1rem 2rem;
             }
         }
 
         /* ============ IMPORT FONT ============ */
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:ital@0;1&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
     </style>
 </head>
 <body>
@@ -373,21 +484,40 @@
         <!-- Pantalla inicial -->
         <div class="screen-initial" id="screenInitial">
             <div class="initial-text">Para alguien especial...</div>
-            <div class="initial-subtitle">Presiona el botón para continuar</div>
+            <div class="initial-subtitle">Presiona para descubrir</div>
+            <div class="decorative-element">✨</div>
             <div class="button-wrapper">
-                <button class="btn-central" id="btnStart">Descubrir</button>
+                <button class="btn-central" id="btnStart">Conocer Mi Corazón</button>
             </div>
         </div>
 
         <!-- Pantalla de mensaje -->
         <div class="screen-message" id="screenMessage">
             <div class="message-card">
-                <p class="message-text" id="messageText">
-                    Lina, cada detalle de esto fue pensado en lo que significas para mí.<br>
-                    Eres mi lugar seguro y mi mayor alegría.<br>
-                    Gracias por cada momento y por ser como eres.
+                <p class="message-text" id="messageText1">
+                    Lina, desde el primer momento en que te vi,
                 </p>
-                <div class="signature" id="signature">Mi amor Lina</div>
+                <div class="message-divider" id="divider1"></div>
+                <p class="message-text" id="messageText2">
+                    mi corazón encontró su lugar seguro.
+                </p>
+                <div class="message-divider" id="divider2"></div>
+                <p class="message-text" id="messageText3">
+                    Cada detalle de esto fue pensado en lo que significas para mí.<br>
+                    Eres mi lugar seguro y mi mayor alegría,<br>
+                    la razón de mis sonrisas, la calma en mis tormentas.
+                </p>
+                <div class="message-divider" id="divider3"></div>
+                <p class="message-text" id="messageText4">
+                    Gracias por cada momento compartido, por tu risa, tu ternura,<br>
+                    por ser exactamente como eres y amarme así.
+                </p>
+                <div class="message-divider" id="divider4"></div>
+                <p class="message-text" id="messageText5">
+                    En ti encontré todo lo que buscaba mi alma.
+                </p>
+                <div class="heart-decoration" id="heartDeco">💕</div>
+                <div class="signature" id="signature">Mi amor, Lina</div>
             </div>
             <button class="btn-secondary" id="btnReset">← Volver</button>
         </div>
@@ -397,7 +527,7 @@
         // ============ INICIALIZACIÓN DE PARTÍCULAS ============
         function createParticles() {
             const container = document.getElementById('particles');
-            const particleCount = window.innerWidth > 768 ? 60 : 30;
+            const particleCount = window.innerWidth > 768 ? 80 : 40;
 
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
@@ -411,11 +541,68 @@
                 particle.style.left = x + 'px';
                 particle.style.top = y + 'px';
                 particle.style.animation = `floatParticle ${duration}s linear ${delay}s infinite`;
-                particle.style.setProperty('--random-x', (Math.random() - 0.5) * 200 + 'px');
                 
                 container.appendChild(particle);
             }
         }
+
+        // ============ CREAR FLORES FLOTANTES ============
+        function createFlowers() {
+            const container = document.getElementById('particles');
+            const flowers = ['🌸', '🌼', '🌻', '🌷', '🌹'];
+            const flowerCount = window.innerWidth > 768 ? 15 : 8;
+
+            setInterval(() => {
+                if (Math.random() > 0.5) {
+                    const flower = document.createElement('div');
+                    flower.classList.add('flower');
+                    flower.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+                    
+                    const x = Math.random() * window.innerWidth;
+                    const duration = 12 + Math.random() * 5;
+                    
+                    flower.style.left = x + 'px';
+                    flower.style.top = '100vh';
+                    flower.style.animation = `floatFlower ${duration}s linear forwards`;
+                    
+                    container.appendChild(flower);
+                    
+                    setTimeout(() => flower.remove(), duration * 1000);
+                }
+            }, 800);
+        }
+
+        // ============ CREAR CORAZONES FLOTANTES ============
+        function createHearts() {
+            const container = document.getElementById('particles');
+            
+            return function() {
+                const hearts = ['❤️', '💕', '💖', '💗', '💝'];
+                const heartCount = 8 + Math.floor(Math.random() * 5);
+                
+                for (let i = 0; i < heartCount; i++) {
+                    setTimeout(() => {
+                        const heart = document.createElement('div');
+                        heart.classList.add('heart-float');
+                        heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                        
+                        const x = Math.random() * window.innerWidth;
+                        const duration = 5 + Math.random() * 3;
+                        const delay = Math.random() * 0.5;
+                        
+                        heart.style.left = x + 'px';
+                        heart.style.top = '100vh';
+                        heart.style.animation = `floatHeart ${duration}s ease-in ${delay}s forwards`;
+                        
+                        container.appendChild(heart);
+                        
+                        setTimeout(() => heart.remove(), (duration + delay) * 1000);
+                    }, i * 150);
+                }
+            };
+        }
+
+        const createHeartsFunc = createHearts();
 
         // ============ SISTEMA DE SONIDO CON WEB AUDIO API ============
         class SoundGenerator {
@@ -423,20 +610,80 @@
                 this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
             }
 
-            playShimmerSound() {
+            // Sonido de campana suave y hermoso
+            playBellSound() {
                 const now = this.audioContext.currentTime;
-                const duration = 0.3;
+                const duration = 1.2;
 
-                // Crear oscilador para un sonido cristalino
+                const frequencies = [523.25, 659.25, 783.99]; // Do, Mi, Sol
+                
+                frequencies.forEach((freq, idx) => {
+                    const osc = this.audioContext.createOscillator();
+                    const gain = this.audioContext.createGain();
+                    const resonanceOsc = this.audioContext.createOscillator();
+                    const resonanceGain = this.audioContext.createGain();
+
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, now);
+                    
+                    resonanceOsc.type = 'sine';
+                    resonanceOsc.frequency.setValueAtTime(freq * 2.5, now);
+
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + duration - 0.1);
+                    
+                    resonanceGain.gain.setValueAtTime(0.15, now);
+                    resonanceGain.gain.exponentialRampToValueAtTime(0.01, now + duration);
+
+                    osc.connect(gain);
+                    resonanceOsc.connect(resonanceGain);
+                    gain.connect(this.audioContext.destination);
+                    resonanceGain.connect(this.audioContext.destination);
+
+                    osc.start(now);
+                    resonanceOsc.start(now);
+                    osc.stop(now + duration);
+                    resonanceOsc.stop(now + duration);
+                });
+            }
+
+            // Sonido de arpa hermoso
+            playHarpSound() {
+                const now = this.audioContext.currentTime;
+                const notes = [523.25, 587.33, 659.25, 783.99, 880]; // Do, Re, Mi, Sol, La
+                
+                notes.forEach((freq, idx) => {
+                    const osc = this.audioContext.createOscillator();
+                    const gain = this.audioContext.createGain();
+
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, now + idx * 0.1);
+                    
+                    gain.gain.setValueAtTime(0.2, now + idx * 0.1);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.1 + 0.6);
+
+                    osc.connect(gain);
+                    gain.connect(this.audioContext.destination);
+
+                    osc.start(now + idx * 0.1);
+                    osc.stop(now + idx * 0.1 + 0.6);
+                });
+            }
+
+            // Sonido de cristal suave
+            playChimeSound() {
+                const now = this.audioContext.currentTime;
+                const duration = 0.8;
+
                 const osc = this.audioContext.createOscillator();
                 const gain = this.audioContext.createGain();
 
                 osc.type = 'sine';
-                osc.frequency.setValueAtTime(800, now);
-                osc.frequency.exponentialRampToValueAtTime(1200, now + duration * 0.3);
-                osc.frequency.exponentialRampToValueAtTime(600, now + duration);
+                osc.frequency.setValueAtTime(1046.5, now);
+                osc.frequency.exponentialRampToValueAtTime(1318.51, now + duration * 0.3);
+                osc.frequency.exponentialRampToValueAtTime(800, now + duration);
 
-                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.setValueAtTime(0.35, now);
                 gain.gain.exponentialRampToValueAtTime(0.01, now + duration);
 
                 osc.connect(gain);
@@ -444,36 +691,45 @@
 
                 osc.start(now);
                 osc.stop(now + duration);
-
-                // Segundo oscilador para más profundidad
-                const osc2 = this.audioContext.createOscillator();
-                const gain2 = this.audioContext.createGain();
-
-                osc2.type = 'sine';
-                osc2.frequency.setValueAtTime(1200, now);
-                osc2.frequency.exponentialRampToValueAtTime(1600, now + duration * 0.2);
-                osc2.frequency.exponentialRampToValueAtTime(800, now + duration);
-
-                gain2.gain.setValueAtTime(0.2, now);
-                gain2.gain.exponentialRampToValueAtTime(0.01, now + duration);
-
-                osc2.connect(gain2);
-                gain2.connect(this.audioContext.destination);
-
-                osc2.start(now);
-                osc2.stop(now + duration);
             }
 
-            playPulseSound() {
+            // Sonido de brillo (shimmer ascendente)
+            playShimmerSound() {
                 const now = this.audioContext.currentTime;
-                const duration = 0.4;
+                const duration = 0.6;
+
+                for (let i = 0; i < 3; i++) {
+                    const osc = this.audioContext.createOscillator();
+                    const gain = this.audioContext.createGain();
+                    const frequency = 1200 + i * 300;
+
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(frequency, now);
+                    osc.frequency.exponentialRampToValueAtTime(frequency * 1.5, now + duration * 0.4);
+                    osc.frequency.exponentialRampToValueAtTime(frequency, now + duration);
+
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + duration);
+
+                    osc.connect(gain);
+                    gain.connect(this.audioContext.destination);
+
+                    osc.start(now);
+                    osc.stop(now + duration);
+                }
+            }
+
+            // Sonido de regreso suave
+            playBackSound() {
+                const now = this.audioContext.currentTime;
+                const duration = 0.5;
 
                 const osc = this.audioContext.createOscillator();
                 const gain = this.audioContext.createGain();
 
                 osc.type = 'sine';
-                osc.frequency.setValueAtTime(500, now);
-                osc.frequency.exponentialRampToValueAtTime(400, now + duration);
+                osc.frequency.setValueAtTime(440, now);
+                osc.frequency.exponentialRampToValueAtTime(350, now + duration);
 
                 gain.gain.setValueAtTime(0.25, now);
                 gain.gain.exponentialRampToValueAtTime(0.01, now + duration);
@@ -493,41 +749,77 @@
         const screenMessage = document.getElementById('screenMessage');
         const btnStart = document.getElementById('btnStart');
         const btnReset = document.getElementById('btnReset');
-        const messageText = document.getElementById('messageText');
+        
+        const messageTexts = [
+            document.getElementById('messageText1'),
+            document.getElementById('messageText2'),
+            document.getElementById('messageText3'),
+            document.getElementById('messageText4'),
+            document.getElementById('messageText5')
+        ];
+        
+        const dividers = [
+            document.getElementById('divider1'),
+            document.getElementById('divider2'),
+            document.getElementById('divider3'),
+            document.getElementById('divider4')
+        ];
+        
         const signature = document.getElementById('signature');
+        const heartDeco = document.getElementById('heartDeco');
 
         function showMessageScreen() {
-            soundGenerator.playShimmerSound();
+            soundGenerator.playBellSound();
+            createHeartsFunc();
             
             screenInitial.style.display = 'none';
             screenMessage.classList.add('active');
             
-            // Animar el texto del mensaje
-            setTimeout(() => {
-                messageText.classList.add('show');
-            }, 200);
+            // Animar los textos del mensaje con delays
+            messageTexts.forEach((text, idx) => {
+                setTimeout(() => {
+                    text.classList.add('show');
+                    soundGenerator.playChimeSound();
+                }, 300 + idx * 250);
+            });
 
-            // Animar la firma
+            // Animar los divisores
+            dividers.forEach((div, idx) => {
+                setTimeout(() => {
+                    div.classList.add('show');
+                }, 250 + idx * 250);
+            });
+
+            // Animar la firma y decoración
+            setTimeout(() => {
+                heartDeco.classList.add('show');
+                soundGenerator.playHarpSound();
+            }, 1400);
+
             setTimeout(() => {
                 signature.classList.add('show');
-            }, 500);
+                soundGenerator.playBellSound();
+            }, 1200);
 
             // Mostrar botón de regreso
             setTimeout(() => {
                 btnReset.classList.add('show');
-            }, 800);
+                soundGenerator.playShimmerSound();
+            }, 2000);
 
             // Aplicar animación de glow a la tarjeta
             const card = document.querySelector('.message-card');
-            card.style.animation = 'glow-pulse 3s ease-in-out infinite';
+            card.style.animation = 'glow-pulse 4s ease-in-out infinite';
         }
 
         function showInitialScreen() {
-            soundGenerator.playPulseSound();
+            soundGenerator.playBackSound();
             
             screenMessage.classList.remove('active');
-            messageText.classList.remove('show');
+            messageTexts.forEach(text => text.classList.remove('show'));
+            dividers.forEach(div => div.classList.remove('show'));
             signature.classList.remove('show');
+            heartDeco.classList.remove('show');
             btnReset.classList.remove('show');
             
             setTimeout(() => {
@@ -538,19 +830,28 @@
         btnStart.addEventListener('click', showMessageScreen);
         btnReset.addEventListener('click', showInitialScreen);
 
-        // Efectos de sonido en hover
+        // Efectos de sonido en hover con variedad
+        let soundIndex = 0;
+        const soundVariations = [
+            () => soundGenerator.playShimmerSound(),
+            () => soundGenerator.playChimeSound(),
+            () => soundGenerator.playHarpSound()
+        ];
+
         btnStart.addEventListener('mouseenter', () => {
-            soundGenerator.playShimmerSound();
+            soundVariations[soundIndex % soundVariations.length]();
+            soundIndex++;
         });
 
         btnReset.addEventListener('mouseenter', () => {
-            soundGenerator.playShimmerSound();
+            soundGenerator.playChimeSound();
         });
 
         // ============ INICIALIZACIÓN ============
         createParticles();
+        createFlowers();
 
-        // Recrear partículas en resize
+        // Recrear partículas y flores en resize
         window.addEventListener('resize', () => {
             const particles = document.getElementById('particles');
             particles.innerHTML = '';
